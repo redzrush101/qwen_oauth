@@ -9,6 +9,6 @@
     "check": "echo 'nothing to check'"
   },
   "pi": {
-    "extensions": ["./index.ts"]
+    "extensions": ["./src/index.ts"]
   }
 }
