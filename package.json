@@ -6,7 +6,17 @@
   "scripts": {
     "clean": "echo 'nothing to clean'",
     "build": "echo 'nothing to build'",
-    "check": "echo 'nothing to check'"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts",
+    "check": "npm run typecheck && npm run lint"
+  },
+  "devDependencies": {
+    "@mariozechner/pi-ai": "^0.65.0",
+    "@mariozechner/pi-coding-agent": "^0.65.0",
+    "@types/node": "^24.5.2",
+    "eslint": "^9.37.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.1"
   },
   "pi": {
     "extensions": ["./src/index.ts"]
