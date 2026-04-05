@@ -1,24 +1,28 @@
 {
   "name": "pi-extension-qwen-oauth",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
     "clean": "echo 'nothing to clean'",
     "build": "echo 'nothing to build'",
+    "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint src --ext .ts",
-    "check": "npm run typecheck && npm run lint"
+    "lint": "eslint src test --ext .ts",
+    "check": "npm run typecheck && npm run lint && npm run test"
   },
   "devDependencies": {
     "@mariozechner/pi-ai": "^0.65.0",
     "@mariozechner/pi-coding-agent": "^0.65.0",
-    "@types/node": "^25.5.2",
-    "eslint": "^10.2.0",
-    "typescript": "^6.0.2",
-    "typescript-eslint": "^8.58.0"
+    "@types/node": "^24.3.0",
+    "eslint": "^9.22.0",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.35.1",
+    "vitest": "^3.2.4"
   },
   "pi": {
-    "extensions": ["./src/index.ts"]
+    "extensions": [
+      "./src/index.ts"
+    ]
   }
 }

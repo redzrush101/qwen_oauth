@@ -4,7 +4,7 @@ export default tseslint.config(
 	{ ignores: ["node_modules/**"] },
 	...tseslint.configs.recommendedTypeChecked,
 	{
-		files: ["src/**/*.ts"],
+		files: ["src/**/*.ts", "test/**/*.ts"],
 		languageOptions: {
 			parserOptions: {
 				project: "./tsconfig.json",

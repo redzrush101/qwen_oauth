@@ -1,0 +1,6 @@
+{
+  "access_token": "refreshed-access-token",
+  "token_type": "Bearer",
+  "expires_in": 7200,
+  "resource_url": "https://portal.qwen.ai"
+}

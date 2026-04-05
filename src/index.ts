@@ -1,20 +1,22 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { QWEN_PROVIDER_ID } from "./constants.js";
-import { createQwenProviderConfig } from "./provider.js";
-import { withQwenRequestPatches } from "./request-patches.js";
+import { METADATA_ENTRY_TYPE, QWEN_PROVIDER_ID } from "./constants.js";
+import { createQwenProviderConfig } from "./provider-config.js";
+import { RequestMetadataTracker } from "./request/metadata.js";
+import { patchQwenRequestPayload } from "./request/patch-payload.js";
 
-const QWEN_ALIAS_PATTERN = /^qwen-oauth(?:-\d+)?$/;
-
-export default function (pi: ExtensionAPI) {
-	const sessionId = crypto.randomUUID();
-	let promptCounter = 0;
+export default function qwenOAuthExtension(pi: ExtensionAPI) {
+	const metadataTracker = new RequestMetadataTracker();
 
 	pi.registerProvider(QWEN_PROVIDER_ID, createQwenProviderConfig());
 
+	pi.on("session_start", (_event, ctx) => {
+		metadataTracker.restoreFromSession(ctx.sessionManager);
+	});
+
 	pi.on("before_provider_request", (event, ctx) => {
-		const provider = ctx.model?.provider;
-		if (!provider || !QWEN_ALIAS_PATTERN.test(provider)) return;
-		promptCounter += 1;
-		return withQwenRequestPatches(event.payload, sessionId, `${sessionId}########${promptCounter}`);
+		if (ctx.model?.provider !== QWEN_PROVIDER_ID) return;
+		const { metadata, state } = metadataTracker.next();
+		pi.appendEntry(METADATA_ENTRY_TYPE, state);
+		return patchQwenRequestPayload(event.payload, metadata);
 	});
 }
